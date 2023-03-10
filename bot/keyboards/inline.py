@@ -178,7 +178,7 @@ def inline_kb_novelty():
     )
     text_and_data = [
         ['Где купить', 'menu/catalog/novelty/wheretobuy'],
-        btn_back('menu/about')
+        btn_back('menu/catalog')
     ]
     schema = [1]
     inline_kb = InlineConstructor.create_kb(text_and_data, schema)
@@ -189,7 +189,7 @@ def inline_kb_collections():
         'Раздел "КОЛЛЕКЦИИ" находится в разработке'
     )
     text_and_data = [
-        btn_back('menu/about')
+        btn_back('menu/catalog')
     ]
     schema = [1]
     inline_kb = InlineConstructor.create_kb(text_and_data, schema)
@@ -200,7 +200,7 @@ def inline_kb_covering():
         'Раздел "ПОКРЫТИЯ" находится в разработке'
     )
     text_and_data = [
-        btn_back('menu/about')
+        btn_back('menu/catalog')
     ]
     schema = [1]
     inline_kb = InlineConstructor.create_kb(text_and_data, schema)
@@ -211,7 +211,7 @@ def inline_kb_search():
         'Раздел "ПОИСК" находится в разработке'
     )
     text_and_data = [
-        btn_back('menu/about')
+        btn_back('menu/catalog')
     ]
     schema = [1]
     inline_kb = InlineConstructor.create_kb(text_and_data, schema)
