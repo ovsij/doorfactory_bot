@@ -1,0 +1,7 @@
+aiogram==2.24
+emoji==2.2.0
+fuzzywuzzy==0.18.0
+pandas==2.0.0
+pony==0.7.16
+python-dotenv==0.21.0
+python-Levenshtein==0.21.0
