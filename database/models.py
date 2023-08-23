@@ -44,7 +44,8 @@ class Model(db.Entity):
 class Collection(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Optional(str)
-    links = Optional(str, nullable=True)
+    documents = Optional(str, nullable=True)
+    videos = Optional(str, nullable=True)
     model = Set(Model)
     product = Set(Product)
 

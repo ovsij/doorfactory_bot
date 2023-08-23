@@ -125,7 +125,7 @@ def inline_kb_doorsmodel(collection_id, model_id):
     for p in get_product(model=model_id):
         if p.product_type not in product_type:
             product_type += p.product_type + ', '
-        if p.width not in width:
+        if p.width.replace('.0', '') not in width:
             width += p.width.replace('.0', '') + ', '
     width = width.strip(', ')
     product_type = product_type.strip(', ')

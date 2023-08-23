@@ -351,13 +351,14 @@ def fill_db():
 def add_shops():
     import numpy as np
     df = pd.read_csv('database/shops.csv')
+    print(len(df))
     for i in range(len(df)):
         image = 'https://alberodoors.com' + str(df.iloc[i]['IE_DETAIL_PICTURE']) if df.iloc[i]['IE_DETAIL_PICTURE'] != np.NaN else None
         if not Shop.exists(geocode=str(df.iloc[i]['IP_PROP27'])):    
             shop = Shop(
                 name=df.iloc[i]['IE_NAME'],
-                phone=str(df.iloc[i]['IP_PROP26']),
-                city=df.iloc[i]['City'],
+                phone=str(df.iloc[i]['IP_PROP26']).replace('.0', ''),
+                city=str(df.iloc[i]['City']),
                 address=df.iloc[i]['IP_PROP25'],
                 geocode=str(df.iloc[i]['IP_PROP27']),
                 time=str(df.iloc[i]['IP_PROP240']),
@@ -366,3 +367,5 @@ def add_shops():
             commit()
             if shop.image == 'https://alberodoors.comnan':
                 shop.image = None
+        else:
+            print(i)

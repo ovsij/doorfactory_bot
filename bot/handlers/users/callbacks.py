@@ -87,21 +87,27 @@ async def btn_callback(callback_query: types.CallbackQuery):
                 if '.jpg' in filename or '.png' in filename:
                     product_imgs.append(f"{path}{filename}")
         
+        
         #print(product_imgs)
         #print(len(product_imgs))
         if len(product_imgs) % 10 > 0:
             r = len(product_imgs) // 10 + 1
         else:
             r = len(product_imgs) / 10
-        
+        print(r)
         for i in range(r):
             photo = [types.InputMedia(media=open(img, 'rb')) for img in product_imgs[i * 10:(i+1) * 10]]
             await bot.send_media_group(
                 callback_query.message.chat.id, 
                 media=photo,
             )
+#BQACAgIAAxkBAAJVImTh-8cKIRlLFaQdYu2REdoB3qSfAALaMgACOhkRS1KDkAbiWr2nMAQ
+# #BQACAgIAAxkBAAJVIWTh-8d11BWVedKd0ynRbYWfx2ooAALPMgACOhkRS1rBo1xodzMUMAQ//BQACAgIAAxkBAAJVIGTh-8f84dbyxQhJ11aMLHUvov4jAALOMgACOhkRS4r5SoEUmS8pMAQ
+# #BQACAgIAAxkBAAJVH2Th-8e5JnDGCdvtJTbRDTUBpf30AALNMgACOhkRSyR4XhxUrPZNMAQ//
+        for vid in collection.videos.split('//'):
+            await bot.send_video(callback_query.from_user.id, vid)
 
-        for doc in collection.links.split('//'):
+        for doc in collection.documents.split('//'):
             await bot.send_document(callback_query.from_user.id, doc)
 
         text, reply_markup = inline_kb_doorsmodel(collection_id=collection_id, model_id=model_id)
@@ -311,9 +317,9 @@ async def btn_callback(callback_query: types.CallbackQuery):
             await callback_query.message.delete()
         except:
             pass
-        await bot.send_video(callback_query.from_user.id, caption='Межкомнатные двери от фабрики-производителя ALBERO', video='BAACAgIAAxkBAAIbNmTPqlMsQ7muBvuFVlK8wupWQuy-AAIuNgAC8sqASotLaqSCw4WMLwQ')
-        await bot.send_video(callback_query.from_user.id, caption='Модные межкомнатные двери. Интервью с дизайнером Мариной Семеновой', video='BAACAgIAAxkBAAIbPmTPq-sIlenuVWjJdGYDQocqW89bAAJFNgAC8sqASpYEtM1U7VzhLwQ')
-        await bot.send_video(callback_query.from_user.id, caption='Производство дверей в эмали г. Балаково', video='BAACAgIAAxkBAAIbP2TPrBNSucEdrCcFy89AMZyhCl4pAAJHNgAC8sqASuG85jOc9O61LwQ')
+        await bot.send_video(callback_query.from_user.id, caption='Межкомнатные двери от фабрики-производителя ALBERO', video='BAACAgIAAxkBAAJXMmTmSjWI8DpL_XNv_JlFWcqVd9kuAAJdMwACTpU5S7874yu63KziMAQ')
+        await bot.send_video(callback_query.from_user.id, caption='Модные межкомнатные двери. Интервью с дизайнером Мариной Семеновой', video='BAACAgIAAxkBAAJXM2TmSjVb6nn2-ugH6LsFAAFIGvTHFQACYDMAAk6VOUvHEuhvIZ2wLDAE')
+        await bot.send_video(callback_query.from_user.id, caption='Производство дверей в эмали г. Балаково', video='BAACAgIAAxkBAAJXNGTmSjUClJ1Rp_UyDVp34FDERi51AAJiMwACTpU5SwTv6h9J3_fyMAQ')
 
         await bot.send_message(
             callback_query.from_user.id,
