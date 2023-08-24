@@ -87,6 +87,10 @@ async def btn_callback(callback_query: types.CallbackQuery):
                 if '.jpg' in filename or '.png' in filename:
                     product_imgs.append(f"{path}{filename}")
         
+        for vid in collection.videos.split('//'):
+            #await bot.send_video(callback_query.from_user.id, vid)
+            product_imgs.append(vid)
+        
         
         #print(product_imgs)
         #print(len(product_imgs))
@@ -95,20 +99,38 @@ async def btn_callback(callback_query: types.CallbackQuery):
         else:
             r = len(product_imgs) / 10
         print(r)
-        for i in range(r):
-            photo = [types.InputMedia(media=open(img, 'rb')) for img in product_imgs[i * 10:(i+1) * 10]]
-            await bot.send_media_group(
+        print(len(product_imgs))
+        for i in range(int(r)):
+            photo = []
+            for img in product_imgs[i * 10:(i+1) * 10]:
+                
+                if img == product_imgs[-2] or img == product_imgs[-1]:
+                    print(f"vid {product_imgs.index(img)}")
+                    photo.append(types.InputMediaVideo(media=img))
+                    print(f"vid {product_imgs.index(img)}")
+                
+                else:
+                    print(f"img {product_imgs.index(img)}")
+                    photo.append(types.InputMedia(media=open(img, 'rb')))
+                    print(f"img {product_imgs.index(img)}")
+                
+        
+            #photo = [types.InputMedia(media=open(img, 'rb')) \
+            #        if 'database' in img else types.InputMediaVideo(media=img) for img in product_imgs[i * 10:(i+1) * 10]]
+            print(photo)
+            msg = await bot.send_media_group(
                 callback_query.message.chat.id, 
                 media=photo,
             )
+            print(msg)
 #BQACAgIAAxkBAAJVImTh-8cKIRlLFaQdYu2REdoB3qSfAALaMgACOhkRS1KDkAbiWr2nMAQ
 # #BQACAgIAAxkBAAJVIWTh-8d11BWVedKd0ynRbYWfx2ooAALPMgACOhkRS1rBo1xodzMUMAQ//BQACAgIAAxkBAAJVIGTh-8f84dbyxQhJ11aMLHUvov4jAALOMgACOhkRS4r5SoEUmS8pMAQ
 # #BQACAgIAAxkBAAJVH2Th-8e5JnDGCdvtJTbRDTUBpf30AALNMgACOhkRSyR4XhxUrPZNMAQ//
-        for vid in collection.videos.split('//'):
-            await bot.send_video(callback_query.from_user.id, vid)
-
+        
         for doc in collection.documents.split('//'):
             await bot.send_document(callback_query.from_user.id, doc)
+            #product_imgs.append(doc)
+        
 
         text, reply_markup = inline_kb_doorsmodel(collection_id=collection_id, model_id=model_id)
         await bot.send_message(
@@ -317,9 +339,9 @@ async def btn_callback(callback_query: types.CallbackQuery):
             await callback_query.message.delete()
         except:
             pass
-        await bot.send_video(callback_query.from_user.id, caption='Межкомнатные двери от фабрики-производителя ALBERO', video='BAACAgIAAxkBAAJXMmTmSjWI8DpL_XNv_JlFWcqVd9kuAAJdMwACTpU5S7874yu63KziMAQ')
-        await bot.send_video(callback_query.from_user.id, caption='Модные межкомнатные двери. Интервью с дизайнером Мариной Семеновой', video='BAACAgIAAxkBAAJXM2TmSjVb6nn2-ugH6LsFAAFIGvTHFQACYDMAAk6VOUvHEuhvIZ2wLDAE')
-        await bot.send_video(callback_query.from_user.id, caption='Производство дверей в эмали г. Балаково', video='BAACAgIAAxkBAAJXNGTmSjUClJ1Rp_UyDVp34FDERi51AAJiMwACTpU5SwTv6h9J3_fyMAQ')
+        await bot.send_video(callback_query.from_user.id, caption='Межкомнатные двери от фабрики-производителя ALBERO', video='BAACAgIAAxkBAAIeKGTniynq1CTUaI3pgjhjgoLgSOWHAALXNwACrFE5S-V6idjfI-1gMAQ')
+        await bot.send_video(callback_query.from_user.id, caption='Модные межкомнатные двери. Интервью с дизайнером Мариной Семеновой', video='BAACAgIAAxkBAAIeKWTniyl2Ak021ix052x8lj8xA-CiAALYNwACrFE5S9DCWxZdSqdSMAQ')
+        await bot.send_video(callback_query.from_user.id, caption='Производство дверей в эмали г. Балаково', video='BAACAgIAAxkBAAIeKmTniyliYt1uOrkXcCn3vJkPFj3rAALZNwACrFE5S0jjBeWVw8RnMAQ')
 
         await bot.send_message(
             callback_query.from_user.id,
