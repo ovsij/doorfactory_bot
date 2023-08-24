@@ -97,7 +97,7 @@ def inline_kb_doorscollections(collection_id):
             schema.append(1) if models.index(model) == 0 else None
             schema.append(1) if models.index(model) == 1 else None
 
-    text_and_data.append(btn_back(f'menu/doors/{collection_id}'))
+    text_and_data.append(btn_back(f'menu/doors/'))
     schema.append(1)
     inline_kb = InlineConstructor.create_kb(text_and_data, schema)
     return text, inline_kb
