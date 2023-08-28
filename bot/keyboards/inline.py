@@ -776,7 +776,7 @@ def inline_kb_model(covering_id : int, collection_id : int, model_id : int, colo
     glasstype = get_glasstype(id=glasstype_id)
     product = [p for p in get_product(model=model_id, color=color_id, glass_type=glasstype_id)]
     colors = ''
-    for col in get_color(model_id=model_id):
+    for col in get_color(model_id=model_id, covering_id=covering_id):
         color_ = get_color(id=col.id)
         colors += color_.name + ', '
     colors = colors.strip(', ')
