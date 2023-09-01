@@ -87,7 +87,14 @@ async def search_city(message: types.Message, state: FSMContext):
     if match_city[1] > 60 and len(message.text) - len(match_city[0]) <= 3 and message.text[0].lower() == match_city[0][0].lower():
         #return match_city[0]
         shops = get_shop(city=match_city[0])
+        sorted_shops = []
         for shop in shops:
+            if 'фирменный' in shop.name.lower() or 'Albero' in shop.name.lower():
+                sorted_shops.insert(0, shop)
+            else:
+                sorted_shops.append(shop)
+        
+        for shop in sorted_shops:
             time = f'Время работы: {shop.time}' if shop.time != 'nan' else ''
             text = markdown.text(
                 shop.name,

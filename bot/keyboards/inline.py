@@ -516,7 +516,7 @@ def inline_kb_collections_by_covering(covering_id : int, page : int):
         schema.append(1)
     if covering.name == 'Эмаль':
         button_type = ['callback_data' for _ in range(len(text_and_data))]
-        text_and_data.append(['Видео', 'https://disk.yandex.ru/i/n0Lc5OD2-eeG0g'])
+        text_and_data.append(['Видео', 'https://youtu.be/JU4NdS6OlUI?si=KEAYo4gSaVZgLaPT'])
         text_and_data.append(['Презентация', 'https://disk.yandex.ru/i/hnBdh_2Cc1cE_w'])
         schema.append(1)
         schema.append(1)
@@ -562,7 +562,7 @@ def inline_kb_models_by_covering_collection(page : int, collection_id : int = No
     button_type = ['callback_data' for _ in text_and_data]
     if collection.name == 'Status':
         text_and_data_3 = [
-            ['Видео', 'https://disk.yandex.ru/i/6c1sf7j2ml14Wg'],
+            ['Видео', 'https://youtu.be/g7kMSefuJRk?si=is__sIQP-rJ7Fy0w'],
             ['Презентация', 'https://disk.yandex.ru/i/6c1sf7j2ml14Wg']
         ]
         buttons_3 = (InlineKeyboardButton(text, url=data) for text, data in text_and_data_3)
@@ -572,7 +572,7 @@ def inline_kb_models_by_covering_collection(page : int, collection_id : int = No
         inline_kb.row(*buttons_3)
     if collection.name == 'НеоКлассика':
         text_and_data_3 = [
-            ['Видео', 'https://disk.yandex.ru/i/k-WcZSqUiUagUA']
+            ['Видео', 'https://youtu.be/hl5xnnT1Eqk?si=4kbjsd9ctYhYoQhG']
         ]
         buttons_3 = (InlineKeyboardButton(text, url=data) for text, data in text_and_data_3)
         inline_kb.row(*buttons_3)
@@ -580,7 +580,7 @@ def inline_kb_models_by_covering_collection(page : int, collection_id : int = No
         buttons_3 = (InlineKeyboardButton(text, callback_data=data) for text, data in text_and_data_3)
         inline_kb.row(*buttons_3)
     if collection.name == 'Геометрия':
-        text_and_data_3=[['Видео', 'https://disk.yandex.ru/i/5q_jKcgq0k9tYg']]
+        text_and_data_3=[['Видео', 'https://youtu.be/ZbZRnUDHDqU?si=906sCWpQ8Gygrq5h']]
         buttons_3 = (InlineKeyboardButton(text, url=data) for text, data in text_and_data_3)
         inline_kb.row(*buttons_3)
         text_and_data_3 = [['Интерьеры', 'menu/interiers/collection/Геометрия']]
@@ -595,7 +595,7 @@ def inline_kb_models_by_covering_collection(page : int, collection_id : int = No
         inline_kb.row(*buttons_3)
     if collection.name == 'Классика':
         text_and_data_3 = [
-            ['Видео', 'https://disk.yandex.ru/i/pQiUA-4Iy0WoGw'],
+            ['Видео', 'https://youtu.be/S980dRQxUr8?si=-SXDQa7CBJiuRDCz'],
             ['Презентация', 'https://disk.yandex.ru/i/4IG1XJzPwS964g']
             ]
         buttons_3 = (InlineKeyboardButton(text, url=data) for text, data in text_and_data_3)
