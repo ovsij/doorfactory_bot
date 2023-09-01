@@ -424,17 +424,29 @@ async def btn_callback(callback_query: types.CallbackQuery):
                 pass
             text = None
             if collection.name == 'Status':
-                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://disk.yandex.ru/i/6c1sf7j2ml14Wg\n\n Презентация коллекции: https://disk.yandex.ru/i/6c1sf7j2ml14Wg'
+                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://youtu.be/g7kMSefuJRk?si=is__sIQP-rJ7Fy0w\n\n Презентация коллекции: https://disk.yandex.ru/d/CuSYCDrjVIa4xQ'
             if collection.name == 'НеоКлассика':
-                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://disk.yandex.ru/i/k-WcZSqUiUagUA'
+                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://youtu.be/hl5xnnT1Eqk?si=bW0sE39UOxXswIty'
             if collection.name == 'Геометрия':
-                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://disk.yandex.ru/i/5q_jKcgq0k9tYg'
+                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://youtu.be/ZbZRnUDHDqU?si=906sCWpQ8Gygrq5h\n\n Презентация коллекции: https://disk.yandex.ru/d/J9BRnGO36jBWTg'
             if collection.name == 'Альянс':
-                text=f'Коллекция {collection.name}\n\nПрезентация коллекции: https://disk.yandex.ru/i/z_9y_qWgsJ18UA'
+                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://youtu.be/1hp5ijrdLLc?si=sBIcvHLWH3FKdJga\n\nПрезентация коллекции: https://disk.yandex.ru/d/8Psy0ZA_ugH32A'
             if collection.name == 'Классика':
-                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://disk.yandex.ru/i/pQiUA-4Iy0WoGw\n\n Презентация коллекции: https://disk.yandex.ru/i/4IG1XJzPwS964g'
+                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://youtu.be/S980dRQxUr8?si=-SXDQa7CBJiuRDCz\n\n Презентация коллекции: https://disk.yandex.ru/d/bPmUoch_JiMr7Q'
             if collection.name == 'Стиль':
-                text=f'Коллекция {collection.name}\n\nПрезентация коллекции: https://disk.yandex.ru/d/ERvmC5CSAUeP1A'
+                text=f'Коллекция {collection.name}\n\nПрезентация коллекции: https://disk.yandex.ru/d/xFFl71wcA-4kng'
+            if collection.name == 'Галерея':
+                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://youtu.be/IOVG-8FnZMo?si=xoFRuPaEE8VTNjM7'
+            if collection.name == 'Империя':
+                text=f'Коллекция {collection.name}\n\nПрезентация коллекции: https://disk.yandex.ru/d/1iD5H_ysZpP8Xg'
+            if collection.name == 'Мегаполис':
+                text=f'Коллекция {collection.name}\n\nВидео коллекции: https://youtu.be/ih5ZiI_MFhE?si=XquF3tOKigvV2Y4Q'
+            if collection.name == 'Мегаполис Лофт':
+                text=f'Коллекция {collection.name}\n\nПрезентация коллекции: https://disk.yandex.ru/d/x8T7uY1v0McxTA'
+            if collection.name == 'WEST':
+                text=f'Коллекция {collection.name}\n\nПрезентация коллекции: https://disk.yandex.ru/d/ZAFYQw6i1spg0Q'
+            if collection.name == 'Тренд':
+                text=f'Коллекция {collection.name}\n\nПрезентация коллекции: https://disk.yandex.ru/d/wTPHd9iWgpXWtQ'
             if text:
                 await bot.send_message(
                     callback_query.from_user.id,
