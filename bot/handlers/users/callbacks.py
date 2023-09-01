@@ -78,6 +78,7 @@ async def btn_callback(callback_query: types.CallbackQuery):
         collection_id = int(code.split('/')[-2])
         model = get_model(id=model_id)
         collection = get_collection(id=collection_id)
+        #print(collection.name)
 
         product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '800.0' and p.collection.id == collection_id]))
 
@@ -111,7 +112,7 @@ async def btn_callback(callback_query: types.CallbackQuery):
             r = len(product_imgs) // 10 + 1
         else:
             r = len(product_imgs) / 10
-        print(product_imgs)
+        #print(product_imgs)
         for i in range(int(r)):
             photo = []
             for img in product_imgs[i * 10:(i+1) * 10]:
