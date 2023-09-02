@@ -899,7 +899,8 @@ async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
                 reply_markup=reply_markup
             )
     elif code == 'addnews':
-        text, reply_markup = inline_kb_news(callback_query.from_user.id)
+        news = get_news(id=get_news()[0].id)
+        text, reply_markup = inline_kb_news(callback_query.from_user.id, news.id)
         try:
             await callback_query.message.edit_text(
                 text=text,
