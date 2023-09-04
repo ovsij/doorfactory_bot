@@ -904,7 +904,7 @@ async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
             )
     elif code == 'addnews':
         news = get_news(id=get_news()[0].id)
-        text, reply_markup, image = inline_kb_news(callback_query.from_user.id, news_index)
+        text, reply_markup, image = inline_kb_news(callback_query.from_user.id, news.id)
         if image:
             await callback_query.message.delete()
             await bot.send_photo(
@@ -928,6 +928,8 @@ async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
                     reply_markup=reply_markup,
                     disable_web_page_preview=True
                 )
+    else:
+        await callback_query.message.delete()
 
     
 
