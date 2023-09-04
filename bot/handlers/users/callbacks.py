@@ -193,9 +193,11 @@ async def btn_callback(callback_query: types.CallbackQuery):
     
     if code == 'menu/sales/changepicture':
         await Form.changepicture.set()
+        reply_markup = InlineConstructor.create_kb([['Отмена','deny']], [1])
         await bot.send_message(
             callback_query.from_user.id,
-            'Пришлите от 1 до 3 фотографий для этого меню'
+            'Пришлите от 1 до 3 фотографий для этого меню',
+            reply_markup=reply_markup
         )
 
 
@@ -866,13 +868,15 @@ async def search(callback_query: types.CallbackQuery, state: FSMContext):
 
 # Отмена (закрытие State)
 
+@dp.callback_query_handler(lambda c: 'deny' in c.data, state=Form.changepicture)
 @dp.callback_query_handler(lambda c: 'deny' in c.data, state=Form.add_news)
 @dp.callback_query_handler(lambda c: 'deny' in c.data, state='next_photo')
 async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
     print(f'User {callback_query.from_user.id} open {callback_query.data}')
     code = callback_query.data.split('_')[-1]
+    await state.finish()
     if code == 'nextphoto':
-        await state.finish()
+        
         with open('photo.txt', 'r') as file:
             files = file.read().split('//')
 
@@ -899,7 +903,6 @@ async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
                 reply_markup=reply_markup
             )
     elif code == 'addnews':
-        await state.finish()
         news = get_news(id=get_news()[0].id)
         text, reply_markup, image = inline_kb_news(callback_query.from_user.id, news_index)
         if image:
