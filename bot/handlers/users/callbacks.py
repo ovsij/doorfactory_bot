@@ -872,7 +872,7 @@ async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
     print(f'User {callback_query.from_user.id} open {callback_query.data}')
     code = callback_query.data.split('_')[-1]
     if code == 'nextphoto':
-        
+        await state.finish()
         with open('photo.txt', 'r') as file:
             files = file.read().split('//')
 
@@ -899,6 +899,7 @@ async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
                 reply_markup=reply_markup
             )
     elif code == 'addnews':
+        await state.finish()
         news = get_news(id=get_news()[0].id)
         text, reply_markup, image = inline_kb_news(callback_query.from_user.id, news_index)
         if image:
@@ -927,4 +928,4 @@ async def denysending(callback_query: types.CallbackQuery, state: FSMContext):
 
     
 
-    await state.finish()
+    
