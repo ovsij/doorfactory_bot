@@ -187,9 +187,9 @@ def inline_kb_doorsmodel(collection_id, model_id):
     glasstype = 'ПГ, ' + glasstype.replace('ПГ', '').replace('ПГ, ', '') if 'ПГ' in glasstype and not 'Полотно глухое' in glasstype else glasstype
     glasstype = glasstype.strip(', ')
     
-    model = 'Скрытая дверь (под отделку)' if model.name == 'ПС Отделка Тип 1-2' else 'Скрытая дверь (в покрытии)' if model.name == 'ПС Тип 1- 2' else model.name
+    model_name = 'Скрытая дверь (под отделку)' if model.name == 'ПС Отделка Тип 1-2' else 'Скрытая дверь (в покрытии)' if model.name == 'ПС Тип 1- 2' else model.name
     text = markdown.text(
-        f'<b>Модель:</b> {model.name}',
+        f'<b>Модель:</b> {model_name}',
         f'<b>Коллекция:</b> {collection.name}',
         f'<b>Доступные покрытия:</b> {coverings}{colors}',
         f'<b>Тип полотна:</b> {product_type}',
