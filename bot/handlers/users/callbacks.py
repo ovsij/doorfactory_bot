@@ -80,17 +80,7 @@ async def btn_callback(callback_query: types.CallbackQuery):
         collection = get_collection(id=collection_id)
         #print(collection.name)
 
-        product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '800.0' and p.collection.id == collection_id]))
-
-        if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '700.0' and p.collection.id == collection_id]))
-        if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '600.0' and p.collection.id == collection_id]))
-        if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '900.0' and p.collection.id == collection_id]))
-        if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '400.0' and p.collection.id == collection_id]))
-
+        product_imgs = []
         path = f"database/Doors/{collection.name}/{model.name}/"
         for root, dirs, files in os.walk(path):
             for filename in sorted(files):
@@ -133,6 +123,52 @@ async def btn_callback(callback_query: types.CallbackQuery):
         if collection.documents:
             for doc in collection.documents.split('//'):
                 await bot.send_document(callback_query.from_user.id, doc)
+        
+        text, reply_markup = inline_kb_doorsmodel(collection_id=collection_id, model_id=model_id)
+        await bot.send_message(
+            callback_query.from_user.id,
+            text=text,
+            reply_markup=reply_markup
+        )
+
+    if re.fullmatch('menu/doors/\d*/\d*/photos', code):
+        model_id = int(code.split('/')[-2])
+        collection_id = int(code.split('/')[-3])
+        model = get_model(id=model_id)
+        collection = get_collection(id=collection_id)
+        #print(collection.name)
+
+        product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '800.0' and p.collection.id == collection_id]))
+
+        if len(product_imgs) == 0:
+            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '700.0' and p.collection.id == collection_id]))
+        if len(product_imgs) == 0:
+            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '600.0' and p.collection.id == collection_id]))
+        if len(product_imgs) == 0:
+            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '900.0' and p.collection.id == collection_id]))
+        if len(product_imgs) == 0:
+            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '400.0' and p.collection.id == collection_id]))
+
+        if len(product_imgs) % 10 > 0:
+            r = len(product_imgs) // 10 + 1
+        else:
+            r = len(product_imgs) / 10
+        #print(product_imgs)
+        for i in range(int(r)):
+            photo = []
+            for img in product_imgs[i * 10:(i+1) * 10]:
+                if img.endswith('.jpg') or img.endswith('.png'):
+                    photo.append(types.InputMedia(media=open(img, 'rb')))
+                else:
+                    photo.append(types.InputMediaVideo(media=img))
+                    
+            try:
+                await bot.send_media_group(
+                    callback_query.message.chat.id, 
+                    media=photo,
+                )
+            except Exception as ex:
+                print(ex)
         
         text, reply_markup = inline_kb_doorsmodel(collection_id=collection_id, model_id=model_id)
         await bot.send_message(

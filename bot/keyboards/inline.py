@@ -86,7 +86,7 @@ def inline_kb_doorscollections(collection_id):
         model_names = ['Тренд Т - 1', 'Тренд Т - 2', 'Тренд Т - 3', 'Тренд Т - 4', 'Тренд Т - 5', 'Тренд Т - 7', 'Тренд Т- 10', 'Тренд Т- 12', 'Тренд Т- 14']
 
     models = [get_model(name=name) for name in model_names]
-    print(models)
+    
     for model in models:
         if collection.name != 'Скрытые двери':
             text_and_data.append([model.name, f'menu/doors/{collection.id}/{model.id}'])
@@ -105,47 +105,92 @@ def inline_kb_doorscollections(collection_id):
 def inline_kb_doorsmodel(collection_id, model_id):
     model = get_model(id=model_id)
     collection = get_collection(id=collection_id)
+    model_ids_1 = [get_model(name='ПС Отделка Тип 1-2').id, get_model(name='ПС Отделка Тип 1-2 порог').id, get_model(name='ПС Отделка Тип 3-4').id, get_model(name='ПС Отделка Тип 3-4 порог').id]
+    model_ids_2 = [get_model(name=mod_name).id for mod_name in ['ПС Тип 1- 2', 'ПС Тип 1- 2 порог', 'ПС Тип 3-4', 'ПС Тип 3-4 порог']]
+    model_ids = {'ПС Отделка Тип 1-2': model_ids_1, 'ПС Тип 1- 2': model_ids_2}
     coverings = ''
-    for p in get_product(model=model_id):
-        covering = get_covering(id=p.covering.id)
-        if covering.name not in coverings:
-            coverings += covering.name + ', '
+    if 'ПС Отделка' in model.name or 'ПС Тип' in model.name:
+        for model_id in model_ids[model.name]:
+            for p in get_product(model=model_id):
+                covering = get_covering(id=p.covering.id)
+                if covering.name not in coverings:
+                    coverings += covering.name + ', '
+    else:
+        for p in get_product(model=model_id):
+            covering = get_covering(id=p.covering.id)
+            if covering.name not in coverings:
+                coverings += covering.name + ', '
     coverings = coverings.strip(', ')
     
     colors = ''
-    for covering in coverings.split(', '):
-        colors += f'<b>Доступные цвета в покрытии "{covering}":</b> '
-        for color in get_color(model_id=model_id, covering_id=get_covering(name=covering).id):
-            color = get_color(id=color.id)
-            colors += color.name + ', '
-        colors = colors.strip(', ')
+    if 'ПС Отделка' in model.name or 'ПС Тип' in model.name:
+        covering_colors = {}
+        for covering in coverings.split(', '):
+            covering_colors[covering] = []
+        for model_id in model_ids[model.name]:
+            for covering in coverings.split(', '):
+                covering = get_covering(name=covering)
+                
+                for color in get_color(model_id=model_id, covering_id=covering.id):
+                    color = get_color(id=color.id)
+                    covering_colors[covering.name].append(color.name)
+
+        for covering, color in covering_colors.items():
+            colors += f'\n<b>Доступные цвета в покрытии "{covering}":</b> \n'
+            colors += str(set(color)).strip(', ').replace("'", '').replace("{", '').replace("}", '')
+                
+    else:
+        for covering in coverings.split(', '):
+            colors += f'\n<b>Доступные цвета в покрытии "{covering}":</b> \n'
+            for color in get_color(model_id=model_id, covering_id=get_covering(name=covering).id):
+                color = get_color(id=color.id)
+                colors += color.name + ', '
+            colors = colors.strip(', ')
 
     width = ''
     product_type = '' # тип полотна
-    for p in get_product(model=model_id):
-        if p.product_type not in product_type:
-            product_type += p.product_type + ', '
-        if p.width.replace('.0', '') not in width:
-            width += p.width.replace('.0', '') + ', '
+    if 'ПС Отделка' in model.name or 'ПС Тип' in model.name:
+        for model_id in model_ids[model.name]:
+            for p in get_product(model=model_id):
+                if p.product_type not in product_type:
+                    product_type += p.product_type + ', '
+                if p.width.replace('.0', '') not in width:
+                    width += p.width.replace('.0', '') + ', '
+    else:
+        for p in get_product(model=model_id):
+            if p.product_type not in product_type:
+                product_type += p.product_type + ', '
+            if p.width.replace('.0', '') not in width:
+                width += p.width.replace('.0', '') + ', '
     width = width.strip(', ')
     product_type = product_type.strip(', ')
 
     glasstype = ''
-    for gt in get_glasstype(model_id=model_id, collection_id=collection_id):
-        gt = get_glasstype(id=gt.id)
-        if gt.name not in glasstype:
-            glasstype += gt.name + ', '
+    if 'ПС Отделка' in model.name or 'ПС Тип' in model.name:
+        for model_id in model_ids[model.name]:
+            for gt in get_glasstype(model_id=model_id, collection_id=collection_id):
+                gt = get_glasstype(id=gt.id)
+                if gt.name not in glasstype:
+                    glasstype += gt.name + ', '
+    else:
+        for gt in get_glasstype(model_id=model_id, collection_id=collection_id):
+            gt = get_glasstype(id=gt.id)
+            if gt.name not in glasstype:
+                glasstype += gt.name + ', '
     glasstype = glasstype.strip(', ')
 
     # вид полотна
-    type_product = 'Полотно глухое' if glasstype == 'ПГ' else 'Полотно остекленное'
-
+    type_product = ''
+    type_product += 'Полотно глухое, ' if 'ПГ' in glasstype else ''
+    type_product += 'Полотно остекленное' if 'Стекло' in glasstype else ''
+    type_product = type_product.strip(', ')
+    glasstype = 'ПГ, ' + glasstype.replace('ПГ', '').replace('ПГ, ', '') if 'ПГ' in glasstype and not 'Полотно глухое' in glasstype else glasstype
+    glasstype = glasstype.strip(', ')
     
     text = markdown.text(
         f'<b>Модель:</b> {model.name}',
         f'<b>Коллекция:</b> {collection.name}',
-        f'<b>Доступные покрытия:</b> {coverings}',
-        colors,
+        f'<b>Доступные покрытия:</b> {coverings}{colors}',
         f'<b>Тип полотна:</b> {product_type}',
         f'<b>Вид полотна:</b> {type_product}',
         f'<b>Остекление:</b> {glasstype}',
@@ -154,8 +199,8 @@ def inline_kb_doorsmodel(collection_id, model_id):
         f'Ширина полотна: {width} мм',
         sep='\n'
     )
-    text_and_data = []
-    schema = []
+    text_and_data = [['Показать фото моделей', f'menu/doors/{collection.id}/{model.id}/photos']]
+    schema = [1]
     text_and_data.append(btn_back(f'menu/doors/{collection_id}'))
     schema.append(1)
     inline_kb = InlineConstructor.create_kb(text_and_data, schema)
