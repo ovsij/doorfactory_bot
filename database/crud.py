@@ -141,7 +141,7 @@ def get_collection(id : int = None, name : str = None, covering : int = None):
     elif covering:
         return select(c for c in Collection if covering in (prod.covering.id for prod in c.product))[:]
     else:
-        return select(c for c in Collection)[:]
+        return Collection.select().order_by(Collection.name)[:]
 
 @db_session
 def update_collection(id : int, name : str):
