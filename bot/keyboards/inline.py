@@ -596,6 +596,7 @@ def inline_kb_models_by_covering_collection(page : int, collection_id : int = No
     covering = get_covering(id=covering_id)
     text = f'<b>Покрытие:</b> {covering.name}\n<b>Коллекция:</b> {collection.name}\nМодели в данной конфиругации:'
     for model in get_model(covering=covering_id, collection=collection_id):
+        model = get_model(id=model.id)
         text_and_data.append([model.name, f'menu/catalog/covering/{covering_id}/{collection_id}/{model.id}/'])
         schema.append(1)
     
