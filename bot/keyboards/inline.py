@@ -86,7 +86,7 @@ def inline_kb_doorscollections(collection_id):
         model_names = ['Тренд Т - 1', 'Тренд Т - 2', 'Тренд Т - 3', 'Тренд Т - 4', 'Тренд Т - 5', 'Тренд Т - 7', 'Тренд Т- 10', 'Тренд Т- 12', 'Тренд Т- 14']
     
     
-    if collection.name == 'Мегаполис GL':
+    if collection.name == 'Мегаполис GL' or collection.name == 'Мегаполис Лофт':
         models = get_model(collection=collection_id)
         print(models)
     else:
