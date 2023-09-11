@@ -84,10 +84,16 @@ def inline_kb_doorscollections(collection_id):
         model_names = ['Невада', 'Техас', 'Миссури', 'Каролина', 'Монтана']
     if collection.name == 'Тренд':
         model_names = ['Тренд Т - 1', 'Тренд Т - 2', 'Тренд Т - 3', 'Тренд Т - 4', 'Тренд Т - 5', 'Тренд Т - 7', 'Тренд Т- 10', 'Тренд Т- 12', 'Тренд Т- 14']
-
-    models = [get_model(name=name) for name in model_names]
+    
+    
+    if collection.name == 'Мегаполис GL':
+        models = get_model(collection=collection_id)
+        print(models)
+    else:
+        models = [get_model(name=name) for name in model_names]
     
     for model in models:
+        model = get_model(id=model.id)
         if collection.name != 'Скрытые двери':
             text_and_data.append([model.name, f'menu/doors/{collection.id}/{model.id}'])
             schema.append(1)
@@ -105,6 +111,7 @@ def inline_kb_doorscollections(collection_id):
 def inline_kb_doorsmodel(collection_id, model_id):
     model = get_model(id=model_id)
     collection = get_collection(id=collection_id)
+    print(collection.name)
     model_ids_1 = [get_model(name='ПС Отделка Тип 1-2').id, get_model(name='ПС Отделка Тип 1-2 порог').id, get_model(name='ПС Отделка Тип 3-4').id, get_model(name='ПС Отделка Тип 3-4 порог').id]
     model_ids_2 = [get_model(name=mod_name).id for mod_name in ['ПС Тип 1- 2', 'ПС Тип 1- 2 порог', 'ПС Тип 3-4', 'ПС Тип 3-4 порог']]
     model_ids = {'ПС Отделка Тип 1-2': model_ids_1, 'ПС Тип 1- 2': model_ids_2}
@@ -116,11 +123,13 @@ def inline_kb_doorsmodel(collection_id, model_id):
                 if covering.name not in coverings:
                     coverings += covering.name + ', '
     else:
-        for p in get_product(model=model_id, collection=collection_id):
-            covering = get_covering(id=p.covering.id)
+        print(model_id)
+        for covering in get_covering(model=model_id):
+            covering = get_covering(id=covering.id)
             if covering.name not in coverings:
                 coverings += covering.name + ', '
     coverings = coverings.strip(', ')
+    print(coverings)
     
     colors = ''
     if 'ПС Отделка' in model.name or 'ПС Тип' in model.name:

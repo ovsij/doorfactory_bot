@@ -174,8 +174,10 @@ def create_model(name : str):
 def get_model(id : int = None, name : str = None, collection : int = None, covering : int = None):
     if id:
         return Model[id]
-    if name:
+    if name and not collection:
         return Model.get(name=name)
+    if collection:
+        return list(Collection[collection].model)
     if covering and collection:
         return select(m for m in Model if Collection[collection] in m.collection and covering in (prod.covering.id for prod in m.product))[:]
     #if covering:
@@ -209,11 +211,13 @@ def create_covering(name : str):
     return Covering(name=name)
 
 @db_session
-def get_covering(id : int = None, name : str = None):
+def get_covering(id : int = None, name : str = None, model : int = None):
     if id:
         return Covering[id]
     elif name:
         return Covering.get(name=name)
+    elif model:
+        return select(c for c in Model[model].covering)[:]
     else:
         return select(c for c in Covering)[:]
 
