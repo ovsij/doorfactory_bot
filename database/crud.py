@@ -238,13 +238,15 @@ def covering_exists(name : str):
 
 # Color
 @db_session
-def get_color(id : int = None, model_id : int = None, covering_id : int = None):
+def get_color(id : int = None, model_id : int = None, covering_id : int = None, collection_id : int = None):
     if id:
         return Color[id]
-    elif model_id and not covering_id:
+    elif model_id and not covering_id and not collection_id:
         return list(set([p.color for p in get_product(model=model_id)]))
     elif model_id and covering_id:
         return list(set([p.color for p in get_product(model=model_id, covering=covering_id)]))
+    elif collection_id:
+        return list(set([p.color for p in get_product(model=model_id, collection==collection_id)]))
     
 
 
