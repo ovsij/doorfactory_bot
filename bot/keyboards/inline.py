@@ -128,7 +128,8 @@ def inline_kb_doorsmodel(collection_id, model_id):
             covering = get_covering(id=covering.id)
             if covering.name not in coverings:
                 coverings += covering.name + ', '
-    coverings = coverings.strip(', ')
+    coverings = coverings.strip(', ') if collection.name != 'Мегаполис Лофт' else 'Бетон'
+
     print(coverings)
     
     colors = ''
