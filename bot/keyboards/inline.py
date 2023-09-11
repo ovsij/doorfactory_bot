@@ -116,7 +116,7 @@ def inline_kb_doorsmodel(collection_id, model_id):
                 if covering.name not in coverings:
                     coverings += covering.name + ', '
     else:
-        for p in get_product(model=model_id):
+        for p in get_product(model=model_id, collection=collection_id):
             covering = get_covering(id=p.covering.id)
             if covering.name not in coverings:
                 coverings += covering.name + ', '

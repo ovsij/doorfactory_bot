@@ -100,7 +100,10 @@ def get_product(id : int = None, name : str = None, model : int = None, collecti
     elif model and color and glass_type and not covering:
         return select(p for p in Product if p.model == Model[model] and p.color == Color[color] and p.glass_type == GlassType[glass_type])[:]
     elif collection:
-        return select(p for p in Product if p.collection == Collection[collection])[:]
+        if model:
+            return select(p for p in Product if p.collection == Collection[collection] and p.model == Model[model])[:]
+        else:
+            return select(p for p in Product if p.collection == Collection[collection])[:]
     elif covering and not model:
         return select(p for p in Product if p.covering == Covering[covering])[:]
     elif model and covering and not color:
@@ -242,6 +245,7 @@ def get_color(id : int = None, model_id : int = None, covering_id : int = None):
         return list(set([p.color for p in get_product(model=model_id)]))
     elif model_id and covering_id:
         return list(set([p.color for p in get_product(model=model_id, covering=covering_id)]))
+    
 
 
 @db_session
