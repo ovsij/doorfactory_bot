@@ -142,7 +142,7 @@ def inline_kb_doorsmodel(collection_id, model_id):
     else:
         for covering in coverings.split(', '):
             colors += f'\n<b>Доступные цвета в покрытии "{covering}":</b> \n'
-            for color in get_color(model_id=model_id, covering_id=get_covering(name=covering).id):
+            for color in get_color(model_id=model_id, covering_id=get_covering(name=covering).id, collection_id=collection_id):
                 color = get_color(id=color.id)
                 colors += color.name + ', '
             colors = colors.strip(', ')
