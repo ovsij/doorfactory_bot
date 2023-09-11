@@ -246,7 +246,7 @@ def get_color(id : int = None, model_id : int = None, covering_id : int = None, 
     elif model_id and covering_id:
         return list(set([p.color for p in get_product(model=model_id, covering=covering_id)]))
     elif collection_id:
-        return list(set([p.color for p in get_product(model=model_id, collection==collection_id)]))
+        return list(set([p.color for p in get_product(model=model_id, collection=collection_id)]))
     
 
 
