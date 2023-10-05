@@ -16,6 +16,6 @@ logging.basicConfig(level=logging.INFO)
 if __name__ == '__main__':
     from handlers import dp
     from database.crud import *
-    #fill_db()
-    #add_shops()
+    fill_db()
+    add_shops()
     executor.start_polling(dp, skip_updates=True)
