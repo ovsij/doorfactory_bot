@@ -761,7 +761,6 @@ async def btn_callback(callback_query: types.CallbackQuery):
             )
         text, reply_markup = inline_kb_deladmin()
         await callback_query.message.edit_text(
-            callback_query.from_user.id,
             text=text,
             reply_markup=reply_markup
         )
