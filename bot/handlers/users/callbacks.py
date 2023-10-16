@@ -138,29 +138,33 @@ async def btn_callback(callback_query: types.CallbackQuery):
         collection = get_collection(id=collection_id)
         #print(collection.name)
 
-        product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '800.0' and p.collection.id == collection_id]))
+        product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '800.0' or str(p.width) == '800' and p.collection.id == collection_id]))
 
         if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '700.0' and p.collection.id == collection_id]))
+            product_imgs = list(set([p.image for p in get_product(model=model_id) and (str(p.width) == '700.0' or str(p.width) == '700') and p.collection.id == collection_id]))
         if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '600.0' and p.collection.id == collection_id]))
+            product_imgs = list(set([p.image for p in get_product(model=model_id) and (str(p.width) == '600.0' or str(p.width) == '600') and p.collection.id == collection_id]))
         if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '900.0' and p.collection.id == collection_id]))
+            product_imgs = list(set([p.image for p in get_product(model=model_id) and (str(p.width) == '900.0' or str(p.width) == '900') and p.collection.id == collection_id]))
         if len(product_imgs) == 0:
-            product_imgs = list(set([p.image for p in get_product(model=model_id) if os.path.exists(p.image) and str(p.width) == '400.0' and p.collection.id == collection_id]))
-
+            product_imgs = list(set([p.image for p in get_product(model=model_id) and (str(p.width) == '400.0' or str(p.width) == '400') and p.collection.id == collection_id]))
+        if len(product_imgs) == 0:
+            product_imgs = list(set([p.image for p in get_product(model=model_id)]))
         if len(product_imgs) % 10 > 0:
             r = len(product_imgs) // 10 + 1
         else:
             r = len(product_imgs) / 10
-        #print(product_imgs)
+        product_imgs = [img for img in product_imgs if os.path.exists(img)]
+        print(product_imgs)
         for i in range(int(r)):
             photo = []
             for img in product_imgs[i * 10:(i+1) * 10]:
                 if img.endswith('.jpg') or img.endswith('.png'):
-                    photo.append(types.InputMedia(media=open(img, 'rb')))
+                    if os.path.exists(img):
+                        photo.append(types.InputMedia(media=open(img, 'rb')))
                 else:
-                    photo.append(types.InputMediaVideo(media=img))
+                    if os.path.exists(img):
+                        photo.append(types.InputMediaVideo(media=img))
                     
             try:
                 await bot.send_media_group(
@@ -566,6 +570,7 @@ async def btn_callback(callback_query: types.CallbackQuery):
         for product in [p for p in get_product(model=int(code.split('/')[-4]), color=int(code.split('/')[-3]), glass_type=int(code.split('/')[-2]))]:
             try:
                 print('try')
+                print(product.image)
                 photo = types.InputFile(product.image)
                 await bot.send_photo(
                     callback_query.message.chat.id, 
